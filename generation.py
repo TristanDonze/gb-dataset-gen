@@ -163,7 +163,7 @@ def generate_dataset(params, N):
     A_white, E_white = whiten_waveform(gb, params[1])  # Pass the f0_array as the second argument
     return reshape_waveform(A_white, E_white)
 
-def generate_and_save_dataset_in_blocks(n_samples_requested, block_size, seed=None):
+def generate_and_save_training_dataset(n_samples_requested, block_size, seed=None):
     params_gbgpu, actual_samples, N_final = sample_gb_parameters_sobol(n_samples_requested, seed=seed)
     hdf5_path = os.path.join(dataset_path, filename)
     
@@ -203,4 +203,4 @@ def generate_and_save_dataset_in_blocks(n_samples_requested, block_size, seed=No
     logger.info(f"Dataset fully generated and saved to {hdf5_path}")
 
 if __name__ == "__main__":
-    generate_and_save_dataset_in_blocks(train_dataset_size, dataset_block_size, seed=42)
+    generate_and_save_training_dataset(train_dataset_size, dataset_block_size, seed=42)
