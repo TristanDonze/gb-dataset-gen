@@ -1,0 +1,25 @@
+[project]
+name = "gb-dataset-gen"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "torch",
+    "torchvision",
+    "gbgpu-cuda12x",
+    "lisaanalysistools-cuda12x",
+]
+
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu128" }
+torchvision = { index = "pytorch-cu128" }
+
+[override-dependencies]
+nvidia-cudnn-cu12 = "9.19.0.56"
+nvidia-cusparselt-cu12 = "0.7.1"
+nvidia-nccl-cu12 = "2.28.9"
+nvidia-nvshmem-cu12 = "3.4.5"
