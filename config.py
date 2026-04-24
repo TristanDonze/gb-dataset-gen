@@ -15,7 +15,7 @@ print(f"Dataset will be saved to: {dataset_path} as {filename}")
 
 train_dataset_size  = 100_000
 val_dataset_size    = 10_000
-dataset_block_size  = 10_000  # Génération par blocs de 10k pour soulager la VRAM
+dataset_block_size  = 10_000  # Number of samples to generate in each block (adjust based on available memory and speed requirements)
 
 # 2. Observation parameters
 dt          = 15.0                  # Time sampling cadence (seconds)
