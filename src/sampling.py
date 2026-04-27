@@ -1,21 +1,12 @@
 import logging
 import numpy as np
 
-from src.noise import AnalyticNoise
 from config import (
-    dataset_path,
-    filename,
-    train_dataset_size,
-    val_dataset_size,
-    dataset_block_size,
-    dt,
     Tobs,
     fixed_params,
     difficulty_factor,
     f0_center,
     sobol_ranges,
-    snr_min,
-    snr_max,
 )
 
 from gbgpu.utils.utility import get_N
