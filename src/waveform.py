@@ -67,3 +67,15 @@ def generate_dataset(params, N, nb_samples):
     gb.run_wave(*params, N=N, dt=dt, T=Tobs, oversample=None)
     A_white, E_white = whiten_waveform(gb, nb_samples)
     return reshape_waveform(A_white, E_white)
+
+def generate_val_dataset(params, N, nb_samples):
+    gb = GBGPU(force_backend="cuda")
+    gb.run_wave(*params, N=N, dt=dt, T=Tobs, oversample=None)
+    A_white, E_white = whiten_waveform(gb, nb_samples)
+    
+    snr_squared = cp.sum(cp.abs(A_white)**2, axis=1) + cp.sum(cp.abs(E_white)**2, axis=1)
+    snr = cp.sqrt(snr_squared)
+    
+    waveform = reshape_waveform(A_white, E_white)
+    
+    return waveform, snr.get()
