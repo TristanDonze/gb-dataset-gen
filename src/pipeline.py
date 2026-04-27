@@ -16,7 +16,7 @@ import numpy as np
 
 from config import dataset_path, filename, snr_min, snr_max
 from src.sampling import sample_gb_parameters_sobol, param_order
-from src.waveform import generate_dataset, generate_filtered_block
+from src.waveform import generate_dataset
 
 logger = logging.getLogger("DatasetGenerator")
 
@@ -36,7 +36,7 @@ def generate_and_save_dataset_in_blocks(n_samples_requested, block_size, seed=No
         for i in tqdm.tqdm(range(0, actual_samples, block_size)):
             end = min(i + block_size, actual_samples)
             params_block = params_gbgpu[:, i:end]
-            waveforms_block = generate_dataset(params_block, N_final)
+            waveforms_block = generate_dataset(params_block, N_final, nb_samples=end - i)
             dset_wave[i:end, :, :] = waveforms_block
             for idx, param in enumerate(param_order):
                 dset_params_dict[param][i:end] = params_block[idx, :]
