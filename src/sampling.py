@@ -39,7 +39,7 @@ param_order = [
     ]
 
 
-def sample_gb_parameters_sobol(n_samples: int, seed=None):
+def sample_gb_parameters_sobol(n_samples: int, force_difficulty_factor=None, seed=None):
     """
     Samples parameters for Galactic Binaries using a Sobol sequence and combines them 
     with fixed parameters into a single structured array.
@@ -51,6 +51,7 @@ def sample_gb_parameters_sobol(n_samples: int, seed=None):
         n_samples (int): The requested number of parameter sets to generate. If this is 
                          not a power of 2, it will be automatically adjusted to the nearest 
                          power of 2 to ensure optimal Sobol sequence coverage.
+        force_difficulty_factor (float, optional): If provided, this will be used as the difficulty factor instead of the default value.
         seed (int, optional): Random seed for reproducibility. Defaults to None.
 
     Returns:
@@ -64,9 +65,15 @@ def sample_gb_parameters_sobol(n_samples: int, seed=None):
     if n_samples != closest_value:
         logger.info(f"Warning: n_samples ({n_samples}) adjusted to the nearest power of 2: {closest_value}")
         n_samples = closest_value
-    
+        
+    effective_difficulty_factor = (
+        force_difficulty_factor
+        if force_difficulty_factor is not None
+        else difficulty_factor
+    )
+
     base_N = get_N(fixed_params["amp"], f0_center, Tobs, oversample=2)[0]
-    N_final = int(base_N * difficulty_factor)
+    N_final = int(base_N * effective_difficulty_factor)
 
     df = 1.0 / Tobs
     f0_width = N_final * df
@@ -104,7 +111,7 @@ def sample_gb_parameters_sobol(n_samples: int, seed=None):
     
     return X, n_samples, N_final
 
-def sample_gb_parameters_lhs(n_samples: int, seed=None):
+def sample_gb_parameters_lhs(n_samples: int, force_difficulty_factor=None, seed=None):
     """
     Samples parameters for Galactic Binaries using a Latin Hypercube Sampling approach and combines them 
     with fixed parameters into a single structured array.
@@ -116,6 +123,7 @@ def sample_gb_parameters_lhs(n_samples: int, seed=None):
         n_samples (int): The requested number of parameter sets to generate. If this is 
                          not a power of 2, it will be automatically adjusted to the nearest 
                          power of 2 to ensure optimal Latin Hypercube Sampling coverage.
+        force_difficulty_factor (float, optional): If provided, this will be used as the difficulty factor instead of the default value.
         seed (int, optional): Random seed for reproducibility. Defaults to None.
 
     Returns:
@@ -130,8 +138,14 @@ def sample_gb_parameters_lhs(n_samples: int, seed=None):
         logger.info(f"Warning: n_samples ({n_samples}) adjusted to the nearest power of 2: {closest_value}")
         n_samples = closest_value
     
+    effective_difficulty_factor = (
+        force_difficulty_factor
+        if force_difficulty_factor is not None
+        else difficulty_factor
+    )
+
     base_N = get_N(fixed_params["amp"], f0_center, Tobs, oversample=2)[0]
-    N_final = int(base_N * difficulty_factor)
+    N_final = int(base_N * effective_difficulty_factor)
 
     df = 1.0 / Tobs
     f0_width = N_final * df
@@ -169,7 +183,7 @@ def sample_gb_parameters_lhs(n_samples: int, seed=None):
     
     return X, n_samples, N_final
 
-def sample_gb_parameters_uniform(n_samples: int, seed=None):
+def sample_gb_parameters_uniform(n_samples: int, force_difficulty_factor=None, seed=None):
     """
     Samples parameters for Galactic Binaries using uniform random sampling and combines them 
     with fixed parameters into a single structured array.
@@ -179,6 +193,7 @@ def sample_gb_parameters_uniform(n_samples: int, seed=None):
 
     Args:
         n_samples (int): The number of parameter sets to generate.
+        force_difficulty_factor (float, optional): If provided, this will be used as the difficulty factor instead of the default value.
         seed (int, optional): Random seed for reproducibility. Defaults to None.
     Returns:
         tuple:
@@ -188,9 +203,15 @@ def sample_gb_parameters_uniform(n_samples: int, seed=None):
     """
     if seed is not None:
         np.random.seed(seed)
-    
+        
+    effective_difficulty_factor = (
+        force_difficulty_factor
+        if force_difficulty_factor is not None
+        else difficulty_factor
+    )
+
     base_N = get_N(fixed_params["amp"], f0_center, Tobs, oversample=2)[0]
-    N_final = int(base_N * difficulty_factor)
+    N_final = int(base_N * effective_difficulty_factor)
 
     df = 1.0 / Tobs
     f0_width = N_final * df
