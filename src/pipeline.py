@@ -23,6 +23,8 @@ logger = logging.getLogger("DatasetGenerator")
 def generate_and_save_dataset_in_blocks(n_samples_requested, block_size, seed=None):
     params_gbgpu, actual_samples, N_final = sample_gb_parameters_sobol(n_samples_requested, seed=seed)
     hdf5_path = os.path.join(dataset_path, train_filename)
+
+    gb = GBGPU(force_backend="cuda")
     
     with h5py.File(hdf5_path, 'w') as f:
         dset_wave = f.create_dataset('waveforms', shape=(actual_samples, 4, N_final), dtype=np.float32, compression="gzip", compression_opts=9)
@@ -36,7 +38,7 @@ def generate_and_save_dataset_in_blocks(n_samples_requested, block_size, seed=No
         for i in tqdm.tqdm(range(0, actual_samples, block_size)):
             end = min(i + block_size, actual_samples)
             params_block = params_gbgpu[:, i:end]
-            waveforms_block = generate_dataset(params_block, N_final, nb_samples=end - i)
+            waveforms_block = generate_dataset(gb, params_block, N_final, nb_samples=end - i)
             dset_wave[i:end, :, :] = waveforms_block
             for idx, param in enumerate(param_order):
                 dset_params_dict[param][i:end] = params_block[idx, :]
@@ -48,6 +50,8 @@ def generate_and_save_val_dataset_in_blocks(n_samples_requested, block_size, see
     oversampled_request = n_samples_requested * 3
     params_gbgpu, actual_samples, N_final = sample_gb_parameters_sobol(oversampled_request, seed=seed)
     hdf5_path = os.path.join(dataset_path, val_filename)
+
+    gb = GBGPU(force_backend="cuda")
     
     with h5py.File(hdf5_path, 'w') as f:
         dset_wave = f.create_dataset('waveforms', shape=(n_samples_requested, 4, N_final), dtype=np.float32, compression="gzip", compression_opts=9)
@@ -74,7 +78,7 @@ def generate_and_save_val_dataset_in_blocks(n_samples_requested, block_size, see
             current_block_size = end_index - param_index
             params_block = params_gbgpu[:, param_index:end_index]
             
-            waveforms_block, snr_block = generate_val_dataset(params_block, N_final, nb_samples=current_block_size)
+            waveforms_block, snr_block = generate_val_dataset(gb, params_block, N_final, nb_samples=current_block_size)
             
             valid_mask = (snr_block >= snr_min) & (snr_block <= snr_max)
             
