@@ -54,12 +54,12 @@ def reshape_waveform(A_white, E_white):
     num_bin = A_white.shape[0]
     N = A_white.shape[1]
 
-    A_real = A_white.real.reshape(num_bin, N)
-    A_imag = A_white.imag.reshape(num_bin, N)
-    E_real = E_white.real.reshape(num_bin, N)
-    E_imag = E_white.imag.reshape(num_bin, N)
+    A_real = A_white.real
+    A_imag = A_white.imag
+    E_real = E_white.real
+    E_imag = E_white.imag
     
-    waveform = cp.stack([A_real, A_imag, E_real, E_imag], axis=1).astype(np.float32)
+    waveform = cp.stack([A_real, A_imag, E_real, E_imag], axis=1).astype(cp.float32)
     return waveform.get()
 
 def generate_dataset(gb_object, params, N, nb_samples):
