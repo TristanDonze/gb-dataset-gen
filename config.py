@@ -6,10 +6,10 @@ from lisatools.utils.constants import YRSID_SI
 
 # 1. Paths & Dataset Configuration
 scratch_dir         = Path("./data")
-dataset_name        = "synthetic_smalltest_gb_dataset"
+dataset_name        = "synthetic_dataset"
 dataset_path        = Path(os.path.join(scratch_dir, dataset_name))
-train_filename      = "train_dataset.hdf5"
-val_filename        = "val_dataset.hdf5"
+train_filename      = "train_dataset_diff_1.hdf5"
+val_filename        = "val_dataset_diff_1.hdf5"
 
 os.makedirs(dataset_path, exist_ok=True)
 print(f"Dataset will be saved to: {dataset_path} as {train_filename} and {val_filename}")
@@ -42,7 +42,7 @@ fixed_params = {
 # 10 = Medium (Signals spread over ~N*10 points)
 # 100 = Easy (Signals spread over ~N*100 points, well separated signals)
 
-difficulty_factor = 10 
+difficulty_factor = 1
 f0_center = 0.004821699107149872
 
 sobol_ranges = {
