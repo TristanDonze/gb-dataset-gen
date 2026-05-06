@@ -8,14 +8,14 @@ from lisatools.utils.constants import YRSID_SI
 scratch_dir         = Path("./data")
 dataset_name        = "synthetic_dataset"
 dataset_path        = Path(os.path.join(scratch_dir, dataset_name))
-train_filename      = "train_dataset_diff_1.hdf5"
-val_filename        = "val_dataset_diff_1.hdf5"
+train_filename      = "train_dataset_1M_diff_1.hdf5"
+val_filename        = "val_dataset_100K_diff_1.hdf5"
 
 os.makedirs(dataset_path, exist_ok=True)
 print(f"Dataset will be saved to: {dataset_path} as {train_filename} and {val_filename}")
 
-train_dataset_size  = 100_000
-val_dataset_size    = 10_000
+train_dataset_size  = 1_000_000
+val_dataset_size    = 100_000
 dataset_block_size  = 10_000  # Number of samples to generate in each block (adjust based on available memory and speed requirements)
 
 # 2. Observation parameters
