@@ -63,7 +63,8 @@ def sample_gb_parameters_sobol(n_samples: int, force_difficulty_factor=None, see
         else difficulty_factor
     )
 
-    base_N = get_N(fixed_params["amp"], f0_center, Tobs, oversample=2)[0]
+    amp_max = 10.0 ** sobol_ranges["log10_amp"][1]
+    base_N = get_N(amp_max, f0_center, Tobs, oversample=2)[0]
     N_final = int(base_N * effective_difficulty_factor)
 
     df = 1.0 / Tobs
@@ -95,6 +96,8 @@ def sample_gb_parameters_sobol(n_samples: int, force_difficulty_factor=None, see
             X_list.append(scaled_samples[param])
         elif param == "beta" and "beta_sin" in scaled_samples:
             X_list.append(np.arcsin(scaled_samples["beta_sin"]))
+        elif param == "amp" and "log10_amp" in scaled_samples:
+            X_list.append(10 ** scaled_samples["log10_amp"])
         else:
             raise ValueError(f"Parameter '{param}' is missing from both fixed_params and sobol_ranges.")
              
@@ -135,7 +138,8 @@ def sample_gb_parameters_lhs(n_samples: int, force_difficulty_factor=None, seed=
         else difficulty_factor
     )
 
-    base_N = get_N(fixed_params["amp"], f0_center, Tobs, oversample=2)[0]
+    amp_max = 10.0 ** sobol_ranges["log10_amp"][1]
+    base_N = get_N(amp_max, f0_center, Tobs, oversample=2)[0]
     N_final = int(base_N * effective_difficulty_factor)
 
     df = 1.0 / Tobs
@@ -167,6 +171,8 @@ def sample_gb_parameters_lhs(n_samples: int, force_difficulty_factor=None, seed=
             X_list.append(scaled_samples[param])
         elif param == "beta" and "beta_sin" in scaled_samples:
             X_list.append(np.arcsin(scaled_samples["beta_sin"]))
+        elif param == "amp" and "log10_amp" in scaled_samples:
+            X_list.append(10 ** scaled_samples["log10_amp"])
         else:
             raise ValueError(f"Parameter '{param}' is missing from both fixed_params and sobol_ranges.")
              
@@ -201,7 +207,8 @@ def sample_gb_parameters_uniform(n_samples: int, force_difficulty_factor=None, s
         else difficulty_factor
     )
 
-    base_N = get_N(fixed_params["amp"], f0_center, Tobs, oversample=2)[0]
+    amp_max = 10.0 ** sobol_ranges["log10_amp"][1]
+    base_N = get_N(amp_max, f0_center, Tobs, oversample=2)[0]
     N_final = int(base_N * effective_difficulty_factor)
 
     df = 1.0 / Tobs
@@ -225,6 +232,8 @@ def sample_gb_parameters_uniform(n_samples: int, force_difficulty_factor=None, s
             X_list.append(scaled_samples[param])
         elif param == "beta" and "beta_sin" in scaled_samples:
             X_list.append(np.arcsin(scaled_samples["beta_sin"]))
+        elif param == "amp" and "log10_amp" in scaled_samples:
+            X_list.append(10 ** scaled_samples["log10_amp"])
         else:
             raise ValueError(f"Parameter '{param}' is missing from both fixed_params and sobol_ranges.")
              
