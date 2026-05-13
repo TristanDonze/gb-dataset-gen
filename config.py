@@ -8,7 +8,7 @@ from lisatools.utils.constants import YRSID_SI
 scratch_dir         = Path("./data")
 dataset_name        = "synthetic_dataset"
 dataset_path        = Path(os.path.join(scratch_dir, dataset_name))
-train_filename      = "train_dataset_1M_logamp_diff_1.hdf5"
+train_filename      = "train_dataset_2M_logamp_diff_1.hdf5"
 val_filename        = "val_dataset_100K_diff_1.hdf5"
 
 os.makedirs(dataset_path, exist_ok=True)
