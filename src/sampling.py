@@ -62,8 +62,11 @@ def sample_gb_parameters_sobol(n_samples: int, force_difficulty_factor=None, see
         if force_difficulty_factor is not None
         else difficulty_factor
     )
+    if fixed_params.get("amp") is not None:
+        amp_max = fixed_params["amp"]
+    else:
+        amp_max = 10.0 ** sobol_ranges["log10_amp"][1]
 
-    amp_max = 10.0 ** sobol_ranges["log10_amp"][1]
     base_N = get_N(amp_max, f0_center, Tobs, oversample=2)[0]
     N_final = int(base_N * effective_difficulty_factor)
 
@@ -138,7 +141,11 @@ def sample_gb_parameters_lhs(n_samples: int, force_difficulty_factor=None, seed=
         else difficulty_factor
     )
 
-    amp_max = 10.0 ** sobol_ranges["log10_amp"][1]
+    if fixed_params.get("amp") is not None:
+        amp_max = fixed_params["amp"]
+    else:
+        amp_max = 10.0 ** sobol_ranges["log10_amp"][1]
+
     base_N = get_N(amp_max, f0_center, Tobs, oversample=2)[0]
     N_final = int(base_N * effective_difficulty_factor)
 
@@ -207,7 +214,11 @@ def sample_gb_parameters_uniform(n_samples: int, force_difficulty_factor=None, s
         else difficulty_factor
     )
 
-    amp_max = 10.0 ** sobol_ranges["log10_amp"][1]
+    if fixed_params.get("amp") is not None:
+        amp_max = fixed_params["amp"]
+    else:
+        amp_max = 10.0 ** sobol_ranges["log10_amp"][1]
+
     base_N = get_N(amp_max, f0_center, Tobs, oversample=2)[0]
     N_final = int(base_N * effective_difficulty_factor)
 
