@@ -8,7 +8,7 @@ from lisatools.utils.constants import YRSID_SI
 scratch_dir         = Path("./data")
 dataset_name        = "synthetic_dataset"
 dataset_path        = Path(os.path.join(scratch_dir, dataset_name))
-train_filename      = "train_dataset_2M_logamp_diff_1.hdf5"
+train_filename      = "dataset_2M_variable_amp.hdf5"
 val_filename        = "val_dataset_100K_diff_1.hdf5"
 
 os.makedirs(dataset_path, exist_ok=True)
@@ -25,6 +25,7 @@ Tobs        = Tobs_years * YRSID_SI
 
 # 3. Fixed extrinsic parameters (Constants)
 fixed_params = {
+    # "amp": 9.920753733951951e-23,
     "fddot": 0.0,
     "phi0":  4.830600316082553,
     "iota":  1.4686945655532282,
@@ -45,7 +46,7 @@ difficulty_factor = 1
 f0_center = 0.004821699107149872
 
 sobol_ranges = {
-    "log10_amp": [-24.0, -21.0],
+    "log10_amp": [-23.2, -21.8], # corresponding to [6.3e-24, 1.6e-22] 
     "fdot":     [9.5e-17, 1.9e-15],
     "beta_sin": [-1.0, 1.0],
     "lam":      [0.0, 2.0 * np.pi],
