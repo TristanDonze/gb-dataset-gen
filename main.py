@@ -7,4 +7,4 @@ logger = logging.getLogger("DatasetGenerator")
 
 if __name__ == "__main__":
     logger.info("Starting training dataset generation...")
-    generate_and_save_dataset_in_blocks(train_dataset_size, dataset_block_size, seed=42)
+    generate_and_save_dataset_in_blocks(train_dataset_size, dataset_block_size, filter_with_snr=True, seed=42)
