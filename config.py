@@ -28,7 +28,7 @@ fixed_params = {
     # "amp": 9.920753733951951e-23,
     "fddot": 0.0,
     "phi0":  4.830600316082553,
-    "iota":  1.4686945655532282,
+    # "iota":  1.4686945655532282,
     "psi":   5.088202331694798,
 }
 
@@ -46,14 +46,17 @@ difficulty_factor = 1
 f0_center = 0.004821699107149872
 
 sobol_ranges = {
-    "log10_amp": [-23.2, -21.8], # corresponding to [6.3e-24, 1.6e-22] 
+    "log10_amp": [-22.55, -22.35],  # ~[2.8e-23, 4.5e-23]
     "fdot":     [9.5e-17, 1.9e-15],
-    "beta_sin": [-1.0, 1.0],
+    "beta":      [-1.0, 0.15],
+    "iota":      [0.9, 2.25],
+    # "beta_sin": [-1.0, 1.0],
     "lam":      [0.0, 2.0 * np.pi],
 }
 
 # ==========================================
-# 5. VALIDATION PARAMETERS
+# 5. SNR-FILTERING PARAMETERS
 # ==========================================
-snr_min = 0.0
-snr_max = 100.0
+filter_with_snr = True
+snr_min = 10.0
+snr_max = 50.0
