@@ -6,13 +6,16 @@ from lisatools.utils.constants import YRSID_SI
 
 # 1. Paths & Dataset Configuration
 scratch_dir         = Path("./data")
-dataset_name        = "synthetic_dataset"
-dataset_path        = Path(os.path.join(scratch_dir, dataset_name))
-train_filename      = "dataset_2M_variable_amp.hdf5"
+dataset_collection_name = "synthetic_dataset"
+dataset_name        = "dataset_2M_amp_2_8e-23_4_5e-23_snr_10_50_difficulty_1"
+dataset_path        = Path(os.path.join(scratch_dir, dataset_collection_name, dataset_name))
+dataset_filename    = "dataset.hdf5"
+metadata_filename   = "metadata.json"
+train_filename      = dataset_filename
 val_filename        = "val_dataset_100K_diff_1.hdf5"
 
 os.makedirs(dataset_path, exist_ok=True)
-print(f"Dataset will be saved to: {dataset_path} as {train_filename} and {val_filename}")
+print(f"Dataset will be saved to: {dataset_path} as {dataset_filename} with {metadata_filename}")
 
 train_dataset_size  = 2_000_000
 val_dataset_size    = 100_000
@@ -57,6 +60,6 @@ sobol_ranges = {
 # ==========================================
 # 5. SNR-FILTERING PARAMETERS
 # ==========================================
-filter_with_snr = True
+filter_with_snr = False
 snr_min = 10.0
 snr_max = 50.0
