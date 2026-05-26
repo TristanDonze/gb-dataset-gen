@@ -209,3 +209,4 @@ __marimo__/
 # Dataset
 
 *.hdf5
+data/synthetic_dataset/
