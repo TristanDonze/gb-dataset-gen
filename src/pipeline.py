@@ -43,7 +43,7 @@ from src.waveform import generate_dataset
 logger = logging.getLogger("DatasetGenerator")
 
 def generate_and_save_dataset_in_blocks(n_samples_requested, block_size, filter_with_snr=False, seed=None):
-    oversampled_request = n_samples_requested * 5
+    oversampled_request = n_samples_requested * 10
     params_gbgpu, actual_samples, N_final = sample_gb_parameters_sobol(oversampled_request, seed=seed)
     hdf5_path = dataset_path / train_filename
     metadata = DatasetMetadataBuilder(dataset_path, metadata_filename=metadata_filename)
