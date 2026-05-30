@@ -7,7 +7,7 @@ from lisatools.utils.constants import YRSID_SI
 # 1. Paths & Dataset Configuration
 scratch_dir         = Path("./data")
 dataset_collection_name = "synthetic_dataset"
-dataset_name        = "dataset_3M_2.0e-23_1.0e-22_filtering_True_10_100_difficulty_1" 
+dataset_name        = "dataset_3M_5.0e-24_2.0e-22_filtering_True_5_150_difficulty_1" 
 dataset_path        = Path(os.path.join(scratch_dir, dataset_collection_name, dataset_name))
 dataset_filename    = "dataset.hdf5"
 metadata_filename   = "metadata.json"
@@ -50,7 +50,7 @@ f0_center = 0.004821699107149872
 
 sobol_ranges = {
     # "log10_amp": [-22.55, -22.12],  # ~[2.8e-23, 7.6e-23]
-    "amp":       [2.0e-23, 1.0e-22],
+    "amp":       [5.0e-24, 2.0e-22],
     "fdot":     [9.5e-17, 1.9e-15],
     "beta":      [-1.0, 0.15],
     "iota":      [0.9, 2.25],
@@ -62,5 +62,5 @@ sobol_ranges = {
 # 5. SNR-FILTERING PARAMETERS
 # ==========================================
 filter_with_snr = True
-snr_min = 10.0
-snr_max = 100.0
+snr_min = 5.0
+snr_max = 150.0
