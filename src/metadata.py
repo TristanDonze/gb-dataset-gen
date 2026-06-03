@@ -133,6 +133,12 @@ class DatasetMetadataBuilder:
                     snr_stats[f"fraction_between_{self._label_number(lower)}_{self._label_number(upper)}"] = float(
                         np.mean((snr >= lower) & (snr <= upper))
                     )
+                    snr_stats["histogram"] = self._histogram(
+                        snr,
+                        lower=lower,
+                        upper=upper,
+                        bin_width=5.0,
+                    )
                 self.add_section("snr_stats", snr_stats)
 
             param_stats = {}
@@ -186,6 +192,52 @@ class DatasetMetadataBuilder:
             },
         }
 
+    @classmethod
+    def _histogram(
+        cls,
+        values: np.ndarray,
+        *,
+        lower: float,
+        upper: float,
+        bin_width: float,
+    ) -> dict[str, Any]:
+        values = np.asarray(values)
+        if upper <= lower or bin_width <= 0:
+            return {
+                "bin_width": float(bin_width),
+                "bounds": [float(lower), float(upper)],
+                "count": 0,
+                "bins": [],
+            }
+
+        edges = np.arange(lower, upper, bin_width, dtype=float)
+        if edges.size == 0 or edges[0] != lower:
+            edges = np.insert(edges, 0, lower)
+        if not np.isclose(edges[-1], upper):
+            edges = np.append(edges, upper)
+
+        counts, _ = np.histogram(values, bins=edges)
+        bins = []
+        for index, count in enumerate(counts):
+            left = float(edges[index])
+            right = float(edges[index + 1])
+            is_last = index == len(counts) - 1
+            bins.append(
+                {
+                    "interval": cls._format_interval(left, right, include_upper=is_last),
+                    "lower": left,
+                    "upper": right,
+                    "count": int(count),
+                }
+            )
+
+        return {
+            "bin_width": float(bin_width),
+            "bounds": [float(lower), float(upper)],
+            "count": int(np.sum(counts)),
+            "bins": bins,
+        }
+
     @staticmethod
     def _describe_hdf5_object(obj: h5py.Dataset | h5py.Group) -> dict[str, Any]:
         if isinstance(obj, h5py.Dataset):
@@ -202,6 +254,11 @@ class DatasetMetadataBuilder:
     def _label_number(value: float) -> str:
         label = f"{value:g}".replace("-", "m").replace(".", "p")
         return label
+
+    @staticmethod
+    def _format_interval(lower: float, upper: float, *, include_upper: bool) -> str:
+        closing = "]" if include_upper else ")"
+        return f"[{lower:g}, {upper:g}{closing}"
 
     @classmethod
     def _to_jsonable(cls, value: Any) -> Any:
