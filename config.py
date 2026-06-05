@@ -21,6 +21,8 @@ train_dataset_size  = 8_000_000
 val_dataset_size    = 100_000
 dataset_block_size  = 10_000  # Number of samples to generate in each block (adjust based on available memory and speed requirements)
 
+seed = 67
+
 # 2. Observation parameters
 dt          = 15.0                  # Time sampling cadence (seconds)
 Tobs_years  = 1.0           # Observation time in years
@@ -50,7 +52,7 @@ f0_center = 0.004821699107149872
 
 sobol_ranges = {
     # "log10_amp": [-22.55, -22.12],  # ~[2.8e-23, 7.6e-23]
-    "amp":       [2.0e-23, 1.5e-22],
+    "amp":       [5.0e-24, 1.8e-22],
     "fdot":     [9.5e-17, 1.9e-15],
     "beta":      [-1.0, 0.15],
     "iota":      [0.9, 2.25],
