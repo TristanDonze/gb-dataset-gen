@@ -7,7 +7,7 @@ from lisatools.utils.constants import YRSID_SI
 # 1. Paths & Dataset Configuration
 scratch_dir         = Path("./data")
 dataset_collection_name = "synthetic_dataset"
-dataset_name        = "dataset_500K_uniform_SNR_10_100" 
+dataset_name        = "dataset_10M_uniform_SNR_10_100" 
 dataset_path        = Path(os.path.join(scratch_dir, dataset_collection_name, dataset_name))
 dataset_filename    = "dataset.hdf5"
 metadata_filename   = "metadata.json"
@@ -17,7 +17,7 @@ val_filename        = "val_dataset_100K_diff_1.hdf5"
 os.makedirs(dataset_path, exist_ok=True)
 print(f"Dataset will be saved to: {dataset_path} as {dataset_filename} with {metadata_filename}")
 
-train_dataset_size  = 500_000
+train_dataset_size  = 10_000_000
 val_dataset_size    = 100_000
 dataset_block_size  = 10_000  # Number of samples to generate in each block (adjust based on available memory and speed requirements)
 
@@ -30,10 +30,8 @@ Tobs        = Tobs_years * YRSID_SI
 
 # 3. Fixed extrinsic parameters (Constants)
 fixed_params = {
-    # "amp": 9.920753733951951e-23,
     "fddot": 0.0,
     "phi0":  4.830600316082553,
-    # "iota":  1.4686945655532282,
     "psi":   5.088202331694798,
 }
 
@@ -51,12 +49,10 @@ difficulty_factor = 1
 f0_center = 0.004821699107149872
 
 sobol_ranges = {
-    # "log10_amp": [-22.55, -22.12],  # ~[2.8e-23, 7.6e-23]
     "amp":       [5.0e-24, 1.8e-22],
     "fdot":     [9.5e-17, 1.9e-15],
     "beta":      [-1.0, 0.15],
     "iota":      [0.9, 2.25],
-    # "beta_sin": [-1.0, 1.0],
     "lam":      [0.0, 2.0 * np.pi],
 }
 
