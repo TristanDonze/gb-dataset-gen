@@ -1,56 +1,63 @@
-# gb-dataset-gen
+# Galactic Binaries Dataset Generator
 
-This project generates a synthetic dataset of Galactic Binaries (GBs) using the GBGPU library.
+This repository is the first component of a four-part project developed during an internship at [L2IT](https://www.l2it.in2p3.fr/):
 
-The dataset can be used for machine learning tasks such as cardinality estimation, parameter estimation, and other GB-related studies.
+1. [Dataset generation](https://github.com/TristanDonze/gb-dataset-gen)
+2. [Source counting](https://github.com/TristanDonze/gb-sources-counting)
+3. [Source separation](https://github.com/TristanDonze/gb-sources-separation)
+4. [Parameter estimation](https://github.com/TristanDonze/gb-parameters-estimation)
 
-You can customize the generation process in `config.py`, including:
+This project generates synthetic datasets of Galactic Binary signals with [GBGPU](https://github.com/mikekatz04/GBGPU). The generated waveforms are intended for machine-learning tasks such as source counting, source separation, and parameter estimation.
 
-* Number of samples
-* Parameter ranges
-* Which parameters are fixed or randomly sampled
-* Difficulty factor (`1 = hard`, `10 = medium`, `100 = easy`)
-* Additional generation settings
+## Requirements
 
-It uses **uv** for Python dependency management and environment setup.
+- Python 3.12 or later
+- A CUDA-compatible GPU and CUDA 12 environment
+- [`uv`](https://docs.astral.sh/uv/)
 
-
-## Prerequisites
-
-Install `uv` first if you do not already have it:
+Install `uv` if needed:
 
 ```bash
 curl -LsSf https://astral.sh/uv/install.sh | sh
-````
+```
 
-## Getting Started
-
-Clone the repository and move into the project folder:
+## Installation
 
 ```bash
 git clone https://github.com/TristanDonze/gb-dataset-gen.git
 cd gb-dataset-gen
-```
-
-Install dependencies and create the virtual environment:
-
-```bash
 uv sync
 ```
 
-This will install all packages listed in `pyproject.toml` and `uv.lock`.
+You can check that PyTorch, CUDA, and GBGPU are available with:
 
-Then ensure everything works properly by running the tests:
-
-```bash 
+```bash
 uv run python test/test_install_1.py
 uv run python test/test_install_2.py
 ```
 
-## Running the Project
+## Configuration
 
-Run the main script with:
+Generation settings are defined in [`config.py`](config.py). The main options are:
+
+- output directory and dataset name;
+- number of samples and block size;
+- observation duration and sampling cadence;
+- fixed parameters and Sobol sampling ranges;
+- signal-overlap difficulty factor;
+- optional SNR filtering and its accepted range.
+
+Adapt these values before starting a generation. In particular, choose `dataset_block_size` according to the available GPU memory.
+
+## Dataset generation
+
+Run the generation pipeline with:
 
 ```bash
 uv run python main.py
 ```
+
+The dataset is generated in blocks and saved under the path configured by `scratch_dir`, `dataset_collection_name`, and `dataset_name`. The output contains:
+
+- an HDF5 file with the waveforms, sampled parameters, and SNR values;
+- a JSON file containing the generation settings, dataset structure, and summary statistics.
